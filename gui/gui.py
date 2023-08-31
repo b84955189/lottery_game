@@ -13,18 +13,21 @@ import time
 import datetime
 import webbrowser
 import random
+import webbrowser
+import pystray
+from PIL import Image
+from pystray import MenuItem, Menu
 from pathlib import Path
-
 
 import tkinter as tk
 import threading
 import tkinter.filedialog
 from func import ExcelFunc, CommonTools
 
-
 ROOT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = ROOT_PATH / Path("./assets")
-STUDENT_DATA_EXCEL_FILE = ROOT_PATH / Path("./data/StudentData.xlsx")
+# STUDENT_DATA_EXCEL_FILE = ROOT_PATH / Path("./data/StudentData.xlsx")
+STUDENT_DATA_EXCEL_FILE = Path("./data/StudentData.xlsx")
 DEFAULT_OUTPUT_PATH = ROOT_PATH / Path("./out")
 OFFSET_Y = -70
 DEFAULT_TIME = datetime.datetime.now()
@@ -147,6 +150,33 @@ def btn_clicked():
         pass
 
 
+def show_main_UI():
+    """
+    显示主界面
+    @return: None
+    """
+    # 重现显示图形界面
+    window.deiconify()
+
+
+def on_exit_by_minimize():
+    """
+    退出界面，最小化至托盘
+    @return: None
+    """
+    # 关闭界面
+    window.withdraw()
+
+
+def on_exit(icon: pystray.Icon):
+    """
+    完全退出程序
+    @return:
+    """
+    icon.stop()
+    window.destroy()
+
+
 # UI thread is single thread !!! If there have a long-time task , everything of
 # operation in UI thread will be blocked for a while.
 def start():
@@ -158,6 +188,17 @@ def start():
 
     window.geometry("862x519")
     window.configure(bg="#3A7FF6")
+
+    # 托盘右键菜单 , 并设置默认左键点击事件为右键菜单的显示主界面事件
+    tray_menu = (MenuItem('显示主界面', show_main_UI, default=True), MenuItem('帮助', lambda: webbrowser.open('https://b84955189.notion.site/11f42730aa004efe981dfd271389e966?pvs=4')), Menu.SEPARATOR, MenuItem('退出', on_exit))
+    # 创建最小化托盘图标 图标名，图片资源，应用名称，[菜单]
+    tray_icon = pystray.Icon('tray_icon', Image.open(ASSETS_PATH / "icon.png"), "菲姐点名器", tray_menu)
+
+    # 重新定义点击关闭按钮的处理,重新绑定为最小化至托盘事件
+    window.protocol('WM_DELETE_WINDOW', on_exit_by_minimize)
+    # 开启托盘线程，因为默认开启托盘与Tkinter UI界面的线程是相互阻塞的，所以单独开个线程便可UI界面与托盘同时存在
+    threading.Thread(target=tray_icon.run, daemon=True).start()
+
     canvas = tk.Canvas(
         window, bg="#3A7FF6", height=519, width=862,
         bd=0, highlightthickness=0, relief="ridge")
