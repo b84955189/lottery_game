@@ -18,3 +18,8 @@ https://pythonjishu.com/poekcftahplspnq/
 `pip freeze>requirements.txt`  
 **安装所依赖的包**  
 `pip install -r requirements.txt`  
+
+## PyInstaller 打包图标问题
+> 官方文档解释：https://pyinstaller.org/en/stable/spec-files.html
+
+在使用spec规范文件打包项目后，icon文件指定必须写在spec文件中，否则无效。既写在命令行中无效。
