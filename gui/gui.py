@@ -13,6 +13,7 @@ import time
 import datetime
 import webbrowser
 import random
+import webbrowser
 import pystray
 from PIL import Image
 from pystray import MenuItem, Menu
@@ -188,7 +189,7 @@ def start():
     window.configure(bg="#3A7FF6")
 
     # 托盘右键菜单 , 并设置默认左键点击事件为右键菜单的显示主界面事件
-    tray_menu = (MenuItem('显示主界面', show_main_UI, default=True), Menu.SEPARATOR, MenuItem('退出', on_exit))
+    tray_menu = (MenuItem('显示主界面', show_main_UI, default=True), MenuItem('帮助', lambda: webbrowser.open('https://b84955189.notion.site/11f42730aa004efe981dfd271389e966?pvs=4')), Menu.SEPARATOR, MenuItem('退出', on_exit))
     # 创建最小化托盘图标 图标名，图片资源，应用名称，[菜单]
     tray_icon = pystray.Icon('tray_icon', Image.open(ASSETS_PATH / "icon.png"), "菲姐点名器", tray_menu)
 
