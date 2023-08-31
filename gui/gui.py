@@ -26,7 +26,8 @@ from func import ExcelFunc, CommonTools
 
 ROOT_PATH = Path(__file__).parent.parent
 ASSETS_PATH = ROOT_PATH / Path("./assets")
-STUDENT_DATA_EXCEL_FILE = ROOT_PATH / Path("./data/StudentData.xlsx")
+# STUDENT_DATA_EXCEL_FILE = ROOT_PATH / Path("./data/StudentData.xlsx")
+STUDENT_DATA_EXCEL_FILE = Path("./data/StudentData.xlsx")
 DEFAULT_OUTPUT_PATH = ROOT_PATH / Path("./out")
 OFFSET_Y = -70
 DEFAULT_TIME = datetime.datetime.now()
