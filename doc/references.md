@@ -12,3 +12,9 @@ https://deepinout.com/tkinter/tkinter-examples/t_how-do-i-handle-the-window-clos
 > 使用webbrowser库实现
 
 https://pythonjishu.com/poekcftahplspnq/
+
+## python 导入导出依赖包依赖版本
+**导出所依赖的包**  
+`pip freeze>requirements.txt`  
+**安装所依赖的包**  
+`pip install -r requirements.txt`  
